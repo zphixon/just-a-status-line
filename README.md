@@ -16,6 +16,7 @@ and/or [fugitive](https://github.com/tpope/vim-fugitive).
 
 ## todo
 
+* make colorscheme customization nicer
 * ability to include user-defined bits
 * cursor column probably
     * although this may fall under the above category
