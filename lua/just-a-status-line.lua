@@ -53,7 +53,7 @@ local git_status = function()
   local branch = ''
   local gutter = ''
 
-  if vim.fn.exists('*FugitiveHead') ~= 0 and vim.fn.FugitiveGitDir() ~= '' then
+  if vim.fn.exists('*FugitiveHead') == 1 and vim.fn.FugitiveGitDir() ~= '' then
     if vim.fn.FugitiveHead() ~= '' then
       branch = vim.fn.FugitiveHead()
     else
@@ -61,7 +61,7 @@ local git_status = function()
     end
   end
 
-  if vim.fn.exists('*GitGutterGetHunkSummary') ~= 0 then
+  if vim.fn.exists('*GitGutterGetHunkSummary') == 1 then
     local summary = vim.fn.GitGutterGetHunkSummary()
     local added, modified, removed = summary[1], summary[2], summary[3]
     if added ~= 0 or modified ~= 0 or removed ~= 0 then
