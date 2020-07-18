@@ -21,14 +21,14 @@ autocmd BufEnter,WinEnter * setl stl=%!StatusLine()
 autocmd BufLeave,WinLeave * setl stl=%!InactiveLine()
 
 " TODO
-let g:gc = gruvbox_material#get_configuration()
-let g:gp = gruvbox_material#get_palette(g:gc.background, g:gc.palette)
-exe 'hi JaslNormal guifg=' . g:gp.blue[0] . ' guibg=#3a3735'
-exe 'hi JaslVisual guifg=' . g:gp.green[0] . ' guibg=#3a3735'
-exe 'hi JaslInsert guifg=' . g:gp.purple[0] . ' guibg=#3a3735'
-exe 'hi JaslReplace guifg=' . g:gp.red[0] . ' guibg=#3a3735'
-exe 'hi JaslCommand guifg=' . g:gp.yellow[0] . ' guibg=#3a3735'
-exe 'hi JaslTerminal guifg=' . g:gp.aqua[0] . ' guibg=#3a3735'
+let s:gc = gruvbox_material#get_configuration()
+let s:gp = gruvbox_material#get_palette(g:gc.background, g:gc.palette)
+exe 'hi JaslNormal guifg=' . s:gp.blue[0] . ' guibg=#3a3735'
+exe 'hi JaslVisual guifg=' . s:gp.green[0] . ' guibg=#3a3735'
+exe 'hi JaslInsert guifg=' . s:gp.purple[0] . ' guibg=#3a3735'
+exe 'hi JaslReplace guifg=' . s:gp.red[0] . ' guibg=#3a3735'
+exe 'hi JaslCommand guifg=' . s:gp.yellow[0] . ' guibg=#3a3735'
+exe 'hi JaslTerminal guifg=' . s:gp.aqua[0] . ' guibg=#3a3735'
 hi link JaslNormalOpPending        JaslNormal
 hi link JaslNormalOpPendingChar    JaslNormal
 hi link JaslNormalOpPendingLine    JaslNormal
