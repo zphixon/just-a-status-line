@@ -109,14 +109,26 @@ local inactive_line = function()
 end
 
 local clear_highlight = function()
-  for k, mode in pairs(modes) do
-    vim.api.nvim_command('hi clear ' .. mode.hl)
+  if vim.fn.has('nvim') then
+    for k, mode in pairs(modes) do
+      vim.cmd('hi clear ' .. mode.hl)
+    end
+  else
+    for k, mode in pairs(modes) do
+      vim.command('hi clear ' .. mode.hl)
+    end
   end
 end
 
 local default_highlight = function()
-  for k, mode in pairs(modes) do
-    vim.api.nvim_command('hi link ' .. mode.hl .. ' StatusLine')
+  if vim.fn.has('nvim') then
+    for k, mode in pairs(modes) do
+      vim.cmd('hi link ' .. mode.hl .. ' StatusLine')
+    end
+  else
+    for k, mode in pairs(modes) do
+      vim.command('hi link ' .. mode.hl .. ' StatusLine')
+    end
   end
 end
 
