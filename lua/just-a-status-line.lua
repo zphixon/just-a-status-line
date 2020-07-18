@@ -1,21 +1,5 @@
 -- vim:set sw=2 ts=2 sts=2 et:
 
-local alt_if_str = function(str, alt)
-  if str == '' then
-    return ''
-  else
-    return alt
-  end
-end
-
-local str_or_alt = function(str, alt)
-  if str == '' then
-    return alt
-  else
-    return str
-  end
-end
-
 local maybe_sep = function(str, alt)
   local sep = vim.g.jasl_separator or ' | '
   if str == '' then
@@ -66,22 +50,26 @@ local current_mode_name = function(mode)
 end
 
 local git_status = function()
-  if vim.fn.exists('*FugitiveGitDir') then
-    local git = vim.fn.FugitiveGitDir()
+  local branch = ''
+  local gutter = ''
 
-    local gutter = ''
-    if vim.fn.exists('*GitGutterGetHunkSummary') then
-      local summary = vim.fn.GitGutterGetHunkSummary()
-      local added, modified, removed = summary[1], summary[2], summary[3]
+  if vim.fn.exists('*FugitiveHead') ~= 0 and vim.fn.FugitiveGitDir() ~= '' then
+    if vim.fn.FugitiveHead() ~= '' then
+      branch = vim.fn.FugitiveHead()
+    else
+      branch = '(detached)'
+    end
+  end
+
+  if vim.fn.exists('*GitGutterGetHunkSummary') ~= 0 then
+    local summary = vim.fn.GitGutterGetHunkSummary()
+    local added, modified, removed = summary[1], summary[2], summary[3]
+    if added ~= 0 or modified ~= 0 or removed ~= 0 then
       gutter = string.format("+%d ~%d -%d", added, modified, removed)
     end
-    local fugitive = vim.fn.FugitiveHead()
-
-    local sep = vim.g.jasl_separator or ' | '
-    local status = str_or_alt(fugitive, '(detached)') .. sep .. maybe_sep(gutter)
-
-    return alt_if_str(git, status)
   end
+
+  return maybe_sep(branch) .. maybe_sep(gutter)
 end
 
 local modified = function()

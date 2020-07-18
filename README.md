@@ -16,7 +16,7 @@ Plug 'zphixon/just-a-status-line'
 ```
 
 additional (optional) git integration with [vim-gitgutter](https://github.com/airblade/vim-gitgutter)
-and [fugitive](https://github.com/tpope/vim-fugitive).
+and/or [fugitive](https://github.com/tpope/vim-fugitive).
 
 ## todo
 
