@@ -14,23 +14,6 @@ fu InactiveLine() abort
     return luaeval('require("just-a-status-line").inactive_line()')
 endf
 
-fu JaslFixModeString(mode) abort
-    let m = a:mode
-    if a:mode == 'no'
-        let m = 'nocv'
-    elseif a:mode == ''
-        let m = 'ctrlv'
-    elseif a:mode == ''
-        let m = 'ctrls'
-    elseif a:mode == 'r?'
-        let m = 'rqm'
-    elseif a:mode == '!'
-        let m = 'bang'
-    end
-
-    return m
-endf
-
 autocmd BufEnter,WinEnter * setl stl=%!StatusLine()
 autocmd BufLeave,WinLeave * setl stl=%!InactiveLine()
 

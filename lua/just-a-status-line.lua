@@ -30,16 +30,13 @@ local modes = {
   no     = { name = 'Normal',    hl = 'JaslNormalOpPending'        }, -- operator pending
   nov    = { name = 'Normal',    hl = 'JaslNormalOpPendingChar'    }, -- operator pending, forced charwise
   noV    = { name = 'normal',    hl = 'JaslNormalOpPendingLine'    }, -- operator pending, forced linewise
-  nocv   = { name = 'normal...', hl = 'JaslNormalOpPendingBlock'   }, -- operator pending, forced blockwise
   niI    = { name = 'normal...', hl = 'JaslNormalCtrlO'            }, -- normal using i_CTRL-O in insert mode
   niR    = { name = 'normal...', hl = 'JaslNormalReplaceCtrlO'     }, -- normal using i_CTRL-O in replace mode
   niV    = { name = 'normal...', hl = 'JaslNormalVirtualCtrlO'     }, -- normal using i_CTRL-O in virtual replace mode
   v      = { name = 'visual',    hl = 'JaslVisual'                 }, -- visual
   V      = { name = 'Visual',    hl = 'JaslVisualLine'             }, -- line visual
-  ctrlv  = { name = '^visual',   hl = 'JaslVisualBlock'            }, -- block visual
   s      = { name = 'select',    hl = 'JaslVisualSelect'           }, -- select
   S      = { name = 'Select',    hl = 'JaslVisualSelectLine'       }, -- line select
-  ctrls  = { name = '^select',   hl = 'JaslVisualSelectBlock'      }, -- block select
   i      = { name = 'insert',    hl = 'JaslInsert'                 }, -- insert
   ic     = { name = 'insert...', hl = 'JaslInsertInsertCompletion' }, -- insert completion
   ix     = { name = 'insert...', hl = 'JaslInsertCtrlX'            }, -- insert completion using i_CTRL-X
@@ -52,10 +49,14 @@ local modes = {
   ce     = { name = 'ex',        hl = 'JaslCommandExNormal'        }, -- normal ex mode
   r      = { name = 'prompt',    hl = 'JaslPrompt'                 }, -- hit-enter prompt
   rm     = { name = 'prompt',    hl = 'JaslPromptPager'            }, -- paging prompt
-  rqm    = { name = 'prompt',    hl = 'JaslPromptConfirm'          }, -- :confirm query
-  bang   = { name = 'shell...',  hl = 'JaslShell'                  }, -- shell command executing
   t      = { name = 'terminal',  hl = 'JaslTerminal'               }, -- terminal mode
 }
+
+modes['no'] = { name = 'normal...', hl = 'JaslNormalOpPendingBlock' } -- operator pending, forced blockwise
+modes['']   = { name = '^visual',   hl = 'JaslVisualBlock'          } -- block visual
+modes['']   = { name = '^select',   hl = 'JaslVisualSelectBlock'    } -- block select
+modes['r?']   = { name = 'prompt',    hl = 'JaslPromptConfirm'        } -- :confirm query
+modes['!']    = { name = 'shell...',  hl = 'JaslShell'                } -- shell command executing
 
 local current_mode_name = function(mode)
   local current_mode = modes[mode]
@@ -103,8 +104,7 @@ end
 
 -- TODO: more left/right side stuff?
 local active_line = function()
-  -- fix the mode string cause it can contain weird characters like 
-  local mode = current_mode_name(vim.fn.JaslFixModeString(vim.fn.mode()))
+  local mode = current_mode_name(vim.fn.mode())
   local modified = maybe_sep(modified())
   local filename = '%f'
   local filetype = maybe_sep(vim.bo.filetype)
