@@ -90,7 +90,6 @@ local active_line = function()
   local git = git_status()
   local percent = '%p%%'
 
-  -- truncate *after* the filename. you probably want to see what mode you're in.
   return ' ' ..  mode ..
     vim.g.jasl_separator ..
     filetype ..
