@@ -24,3 +24,5 @@ and [fugitive](https://github.com/tpope/vim-fugitive).
 * ability to include user-defined bits
 * cursor column probably
 * test in vim8 and without gitgutter/fugitive
+
+![img](https://github.com/zphixon/just-a-status-line/blob/main/screenshot.png)
