@@ -104,9 +104,9 @@ local active_line = function()
 end
 
 local inactive_line = function()
-  local tailname = '%t'
   local modified = '%{jasl#modified()}'
-  return ' '.. modified .. tailname
+  local filename = '%f'
+  return ' '.. modified .. filename
 end
 
 local clear_highlight = function()
