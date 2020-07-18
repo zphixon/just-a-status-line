@@ -6,12 +6,15 @@
 " License: MIT License
 " ==================================================
 
+let g:jasl_status_line = 'require("just-a-status-line").active_line()'
+let g:jasl_status_line_inactive = 'require("just-a-status-line").inactive_line()'
+
 fu StatusLine() abort
-    return luaeval('require("just-a-status-line").active_line()')
+    return luaeval(g:jasl_status_line)
 endf
 
 fu InactiveLine() abort
-    return luaeval('require("just-a-status-line").inactive_line()')
+    return luaeval(g:jasl_status_line_inactive)
 endf
 
 autocmd BufEnter,WinEnter * setl stl=%!StatusLine()
