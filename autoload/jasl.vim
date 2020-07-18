@@ -1,6 +1,6 @@
 " ==================================================
 " URL: https://github.com/zphixon/just-a-status-line
-" Filename: plugin/just-a-status-line.vim
+" Filename: autoload/jasl.vim
 " Author: zphixon
 " Email: zphixon@gmail.com
 " License: MIT License
@@ -20,4 +20,15 @@ endf
 
 fu! jasl#clear_highlight() abort
     call luaeval('require("just-a-status-line").clear_highlight()')
+endf
+
+fu! jasl#modified() abort
+    " we have access to g:actual_curbuf and g:actual_curwin
+    if &readonly
+        return '-' . g:jasl_separator
+    elseif &modified
+        return '+' . g:jasl_separator
+    else
+        return ''
+    end
 endf

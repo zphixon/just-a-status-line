@@ -1,11 +1,10 @@
 -- vim:set sw=2 ts=2 sts=2 et:
 
-local maybe_sep = function(str, alt)
-  local sep = vim.g.jasl_separator or ' | '
+local maybe_sep = function(str)
   if str == '' then
     return ''
   else
-    return str .. sep
+    return str .. vim.g.jasl_separator
   end
 end
 
@@ -73,16 +72,6 @@ local git_status = function()
   return maybe_sep(branch) .. maybe_sep(gutter)
 end
 
-local modified = function()
-  if vim.bo.readonly then
-    return '-'
-  elseif vim.bo.modified then
-    return '+'
-  else
-    return ''
-  end
-end
-
 local spell = function()
   if vim.wo.spell then
     return 'spell'
@@ -94,7 +83,7 @@ end
 -- TODO: more left/right side stuff?
 local active_line = function()
   local mode = current_mode_name(vim.fn.mode())
-  local modified = maybe_sep(modified())
+  local modified = '%{jasl#modified()}'
   local filename = '%f'
   local filetype = maybe_sep(vim.bo.filetype)
   local spell = maybe_sep(spell())
@@ -103,7 +92,7 @@ local active_line = function()
 
   -- truncate *after* the filename. you probably want to see what mode you're in.
   return ' ' ..  mode ..
-    (vim.g.jasl_separator or ' | ') ..
+    vim.g.jasl_separator ..
     filetype ..
     modified ..
     filename ..
@@ -116,7 +105,8 @@ end
 
 local inactive_line = function()
   local tailname = '%t'
-  return ' ' .. tailname
+  local modified = '%{jasl#modified()}'
+  return ' '.. modified .. tailname
 end
 
 local clear_highlight = function()
