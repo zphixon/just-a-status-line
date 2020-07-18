@@ -131,47 +131,9 @@ local default_highlight = function()
   end
 end
 
--- TODO: move gruvbox to my own config
-local highlight = function()
-  clear_highlight()
-
-  if vim.fn.exists('*gruvbox_material#get_configuration') == 1 then
-    local gc = vim.fn['gruvbox_material#get_configuration']()
-    local gp = vim.fn['gruvbox_material#get_palette'](gc.background, gc.palette)
-
-    vim.api.nvim_command('hi JaslNormal guifg=' .. gp.blue[1] .. ' guibg=#3a3735')
-    vim.api.nvim_command('hi JaslVisual guifg=' .. gp.green[1] .. ' guibg=#3a3735')
-    vim.api.nvim_command('hi JaslInsert guifg=' .. gp.purple[1] .. ' guibg=#3a3735')
-    vim.api.nvim_command('hi JaslReplace guifg=' .. gp.red[1] .. ' guibg=#3a3735')
-    vim.api.nvim_command('hi JaslCommand guifg=' .. gp.yellow[1] .. ' guibg=#3a3735')
-    vim.api.nvim_command('hi JaslTerminal guifg=' .. gp.aqua[1] .. ' guibg=#3a3735')
-    vim.api.nvim_command('hi link JaslNormalOpPending        JaslNormal')
-    vim.api.nvim_command('hi link JaslNormalOpPendingChar    JaslNormal')
-    vim.api.nvim_command('hi link JaslNormalOpPendingLine    JaslNormal')
-    vim.api.nvim_command('hi link JaslNormalOpPendingBlock   JaslNormal')
-    vim.api.nvim_command('hi link JaslNormalCtrlO            JaslNormal')
-    vim.api.nvim_command('hi link JaslNormalReplaceCtrlO     JaslNormal')
-    vim.api.nvim_command('hi link JaslNormalVirtualCtrlO     JaslNormal')
-    vim.api.nvim_command('hi link JaslVisualLine             JaslVisual')
-    vim.api.nvim_command('hi link JaslVisualBlock            JaslVisual')
-    vim.api.nvim_command('hi link JaslVisualSelect           JaslVisual')
-    vim.api.nvim_command('hi link JaslVisualSelectLine       JaslVisual')
-    vim.api.nvim_command('hi link JaslVisualSelectBlock      JaslVisual')
-    vim.api.nvim_command('hi link JaslInsertInsertCompletion JaslInsert')
-    vim.api.nvim_command('hi link JaslInsertCtrlX            JaslInsert')
-    vim.api.nvim_command('hi link JaslReplaceCompletion      JaslReplace')
-    vim.api.nvim_command('hi link JaslReplaceVirtual         JaslReplace')
-    vim.api.nvim_command('hi link JaslReplaceCtrlX           JaslReplace')
-    vim.api.nvim_command('hi link JaslCommandEx              JaslCommand')
-    vim.api.nvim_command('hi link JaslCommandExNormal        JaslCommand')
-  else
-    default_highlight()
-  end
-end
-
 local M = {
   clear_highlight = clear_highlight,
-  highlight = highlight,
+  default_highlight = default_highlight,
   active_line = active_line,
   inactive_line = inactive_line,
 }

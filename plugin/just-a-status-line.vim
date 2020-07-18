@@ -6,27 +6,18 @@
 " License: MIT License
 " ==================================================
 
-let g:jasl_status_line = 'require("just-a-status-line").active_line()'
-let g:jasl_status_line_inactive = 'require("just-a-status-line").inactive_line()'
-let g:jasl_highlight = 'require("just-a-status-line").highlight()'
-let g:jasl_clear_highlight = 'require("just-a-status-line").clear_highlight()'
+if !exists("g:jasl_active")
+    let g:jasl_active = 'require("just-a-status-line").active_line()'
+endif
 
-fu! JaslStatusLine() abort
-    return luaeval(g:jasl_status_line)
-endf
+if !exists("g:jasl_inactive")
+    let g:jasl_inactive = 'require("just-a-status-line").inactive_line()'
+endif
 
-fu! JaslInactiveLine() abort
-    return luaeval(g:jasl_status_line_inactive)
-endf
+if !exists("g:jasl_highlight")
+    let g:jasl_highlight = 'lua require("just-a-status-line").default_highlight()'
+endif
 
-fu! JaslHighlight() abort
-    call luaeval(g:jasl_highlight)
-endf
-
-fu! JaslClearHighlight() abort
-    call luaeval(g:jasl_highlight)
-endf
-
-autocmd BufEnter,WinEnter * setl stl=%!JaslStatusLine()
-autocmd BufLeave,WinLeave * setl stl=%!JaslInactiveLine()
-autocmd UIEnter,Colorscheme * call JaslHighlight()
+autocmd BufEnter,WinEnter * setl stl=%!jasl#active_line()
+autocmd BufLeave,WinLeave * setl stl=%!jasl#inactive_line()
+autocmd UIEnter,Colorscheme * call jasl#do_highlight()
