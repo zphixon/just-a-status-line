@@ -19,7 +19,7 @@ fu! jasl#do_highlight() abort
 endf
 
 fu! jasl#clear_highlight() abort
-    call luaeval('require("just-a-status-line").clear_highlight()')
+    call luaeval('require("jasl").clear_highlight()')
 endf
 
 fu! jasl#modified() abort

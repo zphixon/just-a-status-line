@@ -7,15 +7,15 @@
 " ==================================================
 
 if !exists("g:jasl_active")
-    let g:jasl_active = 'require("just-a-status-line").active_line()'
+    let g:jasl_active = 'require("jasl").active_line()'
 endif
 
 if !exists("g:jasl_inactive")
-    let g:jasl_inactive = 'require("just-a-status-line").inactive_line()'
+    let g:jasl_inactive = 'require("jasl").inactive_line()'
 endif
 
 if !exists("g:jasl_highlight")
-    let g:jasl_highlight = 'lua require("just-a-status-line").default_highlight()'
+    let g:jasl_highlight = 'lua require("jasl").default_highlight()'
 endif
 
 if !exists("g:jasl_separator")
