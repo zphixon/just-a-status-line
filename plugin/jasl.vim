@@ -22,6 +22,9 @@ if !exists("g:jasl_separator")
     let g:jasl_separator = ' | '
 endif
 
-autocmd BufEnter,WinEnter * setl stl=%!jasl#active_line()
-autocmd BufLeave,WinLeave * setl stl=%!jasl#inactive_line()
-autocmd UIEnter,Colorscheme * call jasl#do_highlight()
+augroup Jasl
+    au!
+    autocmd BufEnter,WinEnter * setl stl=%!jasl#active_line()
+    autocmd BufLeave,WinLeave * setl stl=%!jasl#inactive_line()
+    autocmd UIEnter,Colorscheme * call jasl#do_highlight()
+augroup END
