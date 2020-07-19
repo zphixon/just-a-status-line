@@ -2,6 +2,11 @@
 
 it's just a status line. what more do you want? (wip btw xd 🤪)
 
+## todo
+
+* make colorscheme customization nicer
+* test in vim8
+
 ## gimme
 
 using [vim-plug](https://github.com/junegunn/vim-plug) (or whatever I'm not your
@@ -17,6 +22,54 @@ and/or [fugitive](https://github.com/tpope/vim-fugitive).
 ![img](https://github.com/zphixon/just-a-status-line/blob/main/screenshot.png)
 
 ## doc
+
+the functions defined in `autoload/jasl.vim` should not be touched by an
+end-user. the plugin instead defines a lua api including:
+
+* `clear_highlight`: fully clears the highlight groups of the status line
+* `default_highlight`: sets the highlight groups of status line items to `StatusLine`
+* `active_line`: returns the status line format string for the active window
+* `inactive_line`: returns the status line format string for an inactive window
+
+`active_line` and `inactive_line` both take one argument that is a table of callbacks
+to execute when calculating the staus line for the active and inactive windows:
+
+the `callbacks` table has two properties, `left` and `right` which are lists of
+functions. the callbacks in the `left` property are appended in sequence to the
+left side of the status line after the filename, and the callbacks in the `right`
+property are prepended in sequence to the right side of the status line before
+the git status and percent through the file.
+
+the plugin also defines some highlight groups for syntax highlighting purposes.
+
+| higroup name                   | mode                                          |
+|--------------------------------|-----------------------------------------------|
+| `JaslNormal`                   | normal                                        |
+| `JaslNormalOpPending`          | operator pending                              |
+| `JaslNormalOpPendingChar`      | operator pending, forced charwise             |
+| `JaslNormalOpPendingLine`      | operator pending, forced linewise             |
+| `JaslNormalCtrlO`              | normal using i_CTRL-O in insert mode          |
+| `JaslNormalReplaceCtrlO`       | normal using i_CTRL-O in replace mode         |
+| `JaslNormalVirtualCtrlO`       | normal using i_CTRL-O in virtual replace mode |
+| `JaslVisual`                   | visual                                        |
+| `JaslVisualLine`               | line visual                                   |
+| `JaslVisualSelect`             | select                                        |
+| `JaslVisualSelectLine`         | line select                                   |
+| `JaslInsert`                   | insert                                        |
+| `JaslInsertInsertCompletion`   | insert completion                             |
+| `JaslInsertCtrlX`              | insert completion using i_CTRL-X              |
+| `JaslReplace`                  | replace                                       |
+| `JaslReplaceCompletion`        | replace completion                            |
+| `JaslReplaceVirtual`           | virtual replace                               |
+| `JaslReplaceCtrlX`             | replace completion using i_CTRL-X             |
+| `JaslCommand`                  | command                                       |
+| `JaslCommandEx`                | ex mode                                       |
+| `JaslCommandExNormal`          | normal ex mode                                |
+| `JaslPrompt`                   | hit-enter prompt                              |
+| `JaslPromptPager`              | paging prompt                                 |
+| `JaslTerminal`                 | terminal mode                                 |
+
+look below or check `:h stl` for ideas.
 
 ### defaults
 
@@ -111,9 +164,4 @@ endf
 
 let g:jasl_highlight = 'call MyHighlight()'
 ```
-
-## todo
-
-* make colorscheme customization nicer
-* test in vim8
 
