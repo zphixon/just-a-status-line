@@ -8,6 +8,14 @@ local maybe_sep = function(str)
   end
 end
 
+local maybe_sep_before = function(str)
+  if str == '' then
+    return ''
+  else
+    return vim.g.jasl_separator .. str
+  end
+end
+
 -- TODO: probably ignore all the random stuff no one cares about
 local modes = {
   n      = { name = 'normal',    hl = 'JaslNormal'                 }, -- normal
@@ -80,8 +88,15 @@ local spell = function()
   end
 end
 
--- TODO: more left/right side stuff?
-local active_line = function()
+local active_line = function(callbacks)
+  local callbacks = callbacks or {
+    left = function() return '' end,
+    right = function() return '' end,
+  }
+
+  local left_cb = callbacks.left or (function() return '' end)
+  local right_cb = callbacks.right or (function() return '' end)
+
   local mode = current_mode_name(vim.fn.mode())
   local modified = '%{jasl#modified()}'
   local filename = '%f'
@@ -90,16 +105,22 @@ local active_line = function()
   local git = git_status()
   local percent = '%p%%'
 
-  return ' ' ..  mode ..
+  local user_left = maybe_sep_before(left_cb() or '(nil)')
+  local user_right = maybe_sep(right_cb() or '(nil)')
+
+  local left = mode ..
     vim.g.jasl_separator ..
     filetype ..
     modified ..
     filename ..
-    '%<%=' ..
+    user_left
+
+  local right = user_right ..
     spell ..
     git ..
-    percent ..
-    ' '
+    percent
+
+  return ' ' .. left .. '%<%=' .. right .. ' '
 end
 
 local inactive_line = function()
