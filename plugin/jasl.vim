@@ -6,6 +6,7 @@
 " License: MIT License
 " ==================================================
 
+" TODO: probably make these vim expressions like g:jasl_highlight
 if !exists("g:jasl_active")
     let g:jasl_active = 'require("jasl").active_line()'
 endif
