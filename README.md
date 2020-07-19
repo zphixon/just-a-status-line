@@ -1,48 +1,49 @@
 # just a status line
 
-it's just a status line. what more do you want? (wip btw xd 🤪)
+It's just a status line. What more do you want? (wip btw xd 🤪)
 
-## todo
+## Todo
 
-* make colorscheme customization nicer
-* test in vim8
+* Make colorscheme customization nicer
+* Test in Vim8
 
-## gimme
+## Gimme
 
-using [vim-plug](https://github.com/junegunn/vim-plug) (or whatever I'm not your
+Using [vim-plug](https://github.com/junegunn/vim-plug) (or whatever I'm not your
 dad)
 
 ```vim
 Plug 'zphixon/just-a-status-line'
 ```
 
-additional (optional) git integration with [vim-gitgutter](https://github.com/airblade/vim-gitgutter)
+Additional (optional) git integration with [vim-gitgutter](https://github.com/airblade/vim-gitgutter)
 and/or [fugitive](https://github.com/tpope/vim-fugitive).
 
 ![img](https://github.com/zphixon/just-a-status-line/blob/main/screenshot.png)
 
-## doc
+## Doc
 
-the functions defined in `autoload/jasl.vim` should not be touched by an
-end-user. the plugin instead defines a lua api including:
+The functions defined in `autoload/jasl.vim` should not be touched by an
+end-user. The plugin instead defines a Lua API including:
 
 * `clear_highlight`: fully clears the highlight groups of the status line
 * `default_highlight`: sets the highlight groups of status line items to `StatusLine`
 * `active_line`: returns the status line format string for the active window
 * `inactive_line`: returns the status line format string for an inactive window
 
-`active_line` and `inactive_line` both take one argument that is a table of callbacks
-to execute when calculating the staus line for the active and inactive windows:
+`active_line` and `inactive_line` both optionally take one argument that is a
+table of functions to execute when calculating the status line for the active
+and inactive windows.
 
-the `callbacks` table has two properties, `left` and `right` which are lists of
-functions. the callbacks in the `left` property are appended in sequence to the
-left side of the status line after the filename, and the callbacks in the `right`
+The table may have two optional properties `left` and `right`, which are lists of
+functions. The functions in the `left` property are appended in sequence to the
+left side of the status line after the filename, and the functions in the `right`
 property are prepended in sequence to the right side of the status line before
 the git status and percent through the file.
 
-the plugin also defines some highlight groups for syntax highlighting purposes.
+The plugin also defines some highlight groups for syntax highlighting purposes.
 
-| higroup name                   | mode                                          |
+| highlight group name           | mode                                          |
 |--------------------------------|-----------------------------------------------|
 | `JaslNormal`                   | normal                                        |
 | `JaslNormalOpPending`          | operator pending                              |
@@ -69,24 +70,29 @@ the plugin also defines some highlight groups for syntax highlighting purposes.
 | `JaslPromptPager`              | paging prompt                                 |
 | `JaslTerminal`                 | terminal mode                                 |
 
-look below or check `:h stl` for ideas.
-
-### defaults
+### Defaults
 
 ```vim
+" Lua expression that evaluates to the active window's status line
 let g:jasl_active = 'require("jasl").active_line()'
+
+" Lua expression that evaluates to the inactive window's status line
 let g:jasl_inactive = 'require("jasl").inactive_line()'
+
+" VimL expression that executes status line highlighting
 let g:jasl_highlight = 'lua require("jasl").default_highlight()'
+
+" Separator between status line items
 let g:jasl_separator = ' | '
 ```
 
-### examples
+### Examples
 
-you can add your own user-defined bits to the status line. their output goes
-directly to the status line, so you can do cool things like add your own
-highlighting to them. here's a few examples:
+You can add your own user-defined items to the status line. Since their output
+goes directly to the editor's status line setting, you also have access to the
+formatting options listed in `:h stl`.
 
-#### show cursor column
+#### Show cursor column
 
 ```vim
 let g:jasl_active = "require('jasl').active_line({\n"
@@ -98,9 +104,7 @@ let g:jasl_active = "require('jasl').active_line({\n"
 \ . "})\n"
 ```
 
-#### example [nvim-lsp](https://github.com/neovim/nvim-lsp) integration
-
-this one would probably be better off in its own file.
+#### Example [nvim-lsp](https://github.com/neovim/nvim-lsp) integration
 
 ```vim
 let g:jasl_active = "require('jasl').active_line({\n"
@@ -125,7 +129,7 @@ let g:jasl_active = "require('jasl').active_line({\n"
 \ . "})\n"
 ```
 
-#### example gruvbox mode colors
+#### Example [gruvbox-material](https://github.com/sainnhe/gruvbox-material) mode colors
 
 ```vim
 fu MyHighlight() abort
