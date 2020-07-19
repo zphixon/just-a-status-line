@@ -88,15 +88,25 @@ local spell = function()
   end
 end
 
+local make_user = function(callbacks)
+  if callbacks == nil then return '', '' end
+  local left_callbacks = callbacks.left or {}
+  local right_callbacks = callbacks.right or {}
+
+  local left = ''
+  for k, callback in ipairs(left_callbacks) do
+    left = left .. maybe_sep_before(callback() or '(nil)')
+  end
+
+  local right = ''
+  for k, callback in ipairs(right_callbacks) do
+    right = maybe_sep(callback() or '()') .. right
+  end
+
+  return left, right
+end
+
 local active_line = function(callbacks)
-  local callbacks = callbacks or {
-    left = function() return '' end,
-    right = function() return '' end,
-  }
-
-  local left_cb = callbacks.left or (function() return '' end)
-  local right_cb = callbacks.right or (function() return '' end)
-
   local mode = current_mode_name(vim.fn.mode())
   local modified = '%{jasl#modified()}'
   local filename = '%f'
@@ -105,8 +115,7 @@ local active_line = function(callbacks)
   local git = git_status()
   local percent = '%p%%'
 
-  local user_left = maybe_sep_before(left_cb() or '(nil)')
-  local user_right = maybe_sep(right_cb() or '(nil)')
+  local user_left, user_right = make_user(callbacks)
 
   local left = mode ..
     vim.g.jasl_separator ..

@@ -27,7 +27,52 @@ let g:jasl_highlight = 'lua require("jasl").default_highlight()'
 let g:jasl_separator = ' | '
 ```
 
-### example gruvbox mode colors
+### examples
+
+you can add your own user-defined bits to the status line. their output goes
+directly to the status line, so you can do cool things like add your own
+highlighting to them. here's a few examples:
+
+#### show cursor column
+
+```vim
+let g:jasl_active = "require('jasl').active_line({\n"
+\ . "  right = {\n"
+\ . "    function()\n"
+\ . "      return vim.fn.col('.')\n"
+\ . "    end,\n"
+\ . "  },\n"
+\ . "})\n"
+```
+
+#### example [nvim-lsp](https://github.com/neovim/nvim-lsp) integration
+
+this one would probably be better off in its own file.
+
+```vim
+let g:jasl_active = "require('jasl').active_line({\n"
+\ . "  right = {\n"
+\ . "    function()\n"
+\ . "      if vim.tbl_isempty(vim.lsp.buf_get_clients()) then\n"
+\ . "        return ''\n"
+\ . "      else\n"
+\ . "        local server_name = ''\n"
+\ . "        -- sometimes the client list doesn't start at 1 :(\n"
+\ . "        for k, v in pairs(vim.lsp.buf_get_clients()) do\n"
+\ . "          server_name = v.name\n"
+\ . "        end\n"
+\ . "        if vim.lsp.buf.server_ready() then\n"
+\ . "          return server_name\n"
+\ . "        else\n"
+\ . "          return 'loading ' .. server_name .. '...'\n"
+\ . "        end\n"
+\ . "      end\n"
+\ . "    end,\n"
+\ . "  }\n"
+\ . "})\n"
+```
+
+#### example gruvbox mode colors
 
 ```vim
 fu MyHighlight() abort
@@ -70,8 +115,5 @@ let g:jasl_highlight = 'call MyHighlight()'
 ## todo
 
 * make colorscheme customization nicer
-* ability to include user-defined bits
-* cursor column probably
-    * although this may fall under the above category
-* test in vim8 and without gitgutter/fugitive
+* test in vim8
 
